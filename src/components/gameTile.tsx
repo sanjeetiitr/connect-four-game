@@ -141,12 +141,6 @@ const GameTileWrapper = styled.div`
     border: 2px solid #ffffff;
     box-shadow: 0px 3px 6px #00000040 inset;
   }
-  .round_cell[data-player="PLAYER_ONE"] {
-    background-image: linear-gradient(#ffffc9, #cece00);
-  }
-  .round_cell[data-player="PLAYER_TWO"] {
-    background-image: linear-gradient(#fb7272, #da0000);
-  }
 `;
 
 export const GameTileBox: React.FC<{
