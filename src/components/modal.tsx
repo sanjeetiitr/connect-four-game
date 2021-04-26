@@ -1,11 +1,11 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
 import { CustomColumn, CustomRow, NormalButton } from "../utils/custumStyles";
 const ModalWrapper = styled.div`
   display: none;
   position: fixed;
   z-index: 10;
-  padding-top: 15%;
+  padding-top: 10%;
   left: 0;
   top: 0;
   width: 100%;
@@ -45,13 +45,14 @@ export const CustomModal: React.FC<{
   cancel: Function;
   title: string;
   id: string;
-}> = ({ children, success, cancel, title, id }) => {
+  divider?: boolean;
+}> = ({ children, success, cancel, title, id, divider = true }) => {
   return (
     <ModalWrapper id={id}>
       <CustomColumn className="modal-content">
         <div className="title">{title}</div>
         {children}
-        <div className="divider"></div>
+        {divider && <div className="divider"></div>}
         <CustomRow justify="space-between">
           <NormalButton
             width="48%"

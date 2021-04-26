@@ -1,11 +1,9 @@
 import * as React from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
+import { CustomModal } from "../components/modal";
 import PlayIcon from "../svgComponent/playIcon";
 import { CustomRow, NormalButton } from "../utils/custumStyles";
-interface Props {
-  match: any;
-}
 
 const ScreenWrapper = styled.div`
   flex-direction: column;
@@ -123,9 +121,26 @@ const PlayButton = styled.button`
   }
 `;
 
-export const HomeScreen: React.FC<Props> = ({ match }) => {
+export const HomeScreen: React.FC<{}> = () => {
   let history = useHistory();
-  console.log(match);
+  const handleModalClick = (id: string) => {
+    let element = document.getElementById(id);
+    if (element) {
+      element.style.display = "block";
+    }
+  };
+  const handleModalCancel = (id: string) => {
+    let element = document.getElementById(id);
+    if (element) {
+      element.style.display = "none";
+    }
+  };
+  const handleModalSuccess = (id: string) => {
+    let element = document.getElementById(id);
+    if (element) {
+      element.style.display = "none";
+    }
+  };
 
   return (
     <ScreenWrapper>
@@ -151,7 +166,11 @@ export const HomeScreen: React.FC<Props> = ({ match }) => {
           />
         </CustomRow>
         <CustomRow margin="30px" justify="space-between" className="col-2">
-          <NormalButton background="#4BABFF" width="48%">
+          <NormalButton
+            background="#4BABFF"
+            width="48%"
+            onClick={() => handleModalClick("custom-modal")}
+          >
             <img height="40" alt="icon" src="/one@2x.png" />
             Custom Game
           </NormalButton>
@@ -163,11 +182,19 @@ export const HomeScreen: React.FC<Props> = ({ match }) => {
             <img height="40" alt="icon" src="/two@2x.png" />
             Two Players
           </NormalButton>
-          <NormalButton background="#4B4BFF" width="48%">
+          <NormalButton
+            background="#4B4BFF"
+            width="48%"
+            onClick={() => handleModalClick("custom-modal")}
+          >
             <img height="40" alt="icon" src="/online@2x.png" />
             Game Online
           </NormalButton>
-          <NormalButton background="#6E4BFF" width="48%">
+          <NormalButton
+            background="#6E4BFF"
+            width="48%"
+            onClick={() => handleModalClick("custom-modal")}
+          >
             <img height="40" alt="icon" src="/training@2x.png" />
             Training Game
           </NormalButton>
@@ -176,6 +203,13 @@ export const HomeScreen: React.FC<Props> = ({ match }) => {
       <div className="bottom-wrapper">
         <div className="copyright">© 2020</div>
       </div>
+      <CustomModal
+        success={() => handleModalSuccess("custom-modal")}
+        cancel={() => handleModalCancel("custom-modal")}
+        title="Coming Soon"
+        id="custom-modal"
+        divider={false}
+      ></CustomModal>
     </ScreenWrapper>
   );
 };
