@@ -138,7 +138,7 @@ export const GameScreen: React.FC<{}> = () => {
 
   const [board, setBoard] = React.useState<Board>(intitializeBoard());
   const [playerTurn, setPlayerTurn] = React.useState<Player>(Player.One);
-  const [gameState, setGameState] = React.useState<GameState | Player>(
+  const [gameState, setGameState] = React.useState<GameState | Player | any>(
     GameState.Ongoing
   );
   const [tournamentStatus, updateTournamentStatus] = React.useState<any>({
@@ -301,7 +301,7 @@ export const GameScreen: React.FC<{}> = () => {
           <div className="divider" />
           <CustomColumn width="100%" padding="20px 0">
             {!wonGame && (
-              <NormalButton marginBottom="20px" background="#4B7BFF">
+              <NormalButton disabled marginBottom="20px" background="#4B7BFF">
                 Undo Step
               </NormalButton>
             )}

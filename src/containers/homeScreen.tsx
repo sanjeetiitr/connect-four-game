@@ -53,7 +53,6 @@ const ScreenWrapper = styled.div`
 
     .main-img {
       margin-top: -200px;
-      //   margin-left: -200px;
     }
   }
 
@@ -72,6 +71,15 @@ const ScreenWrapper = styled.div`
     justify-content: flex-end;
     font-size: 18px;
     color: #424242;
+
+    .copyright {
+      font-size: 16px;
+      text-align: left;
+      letter-spacing: 0px;
+      color: #424242;
+      opacity: 1;
+      padding: 40px 30px 20px 30px;
+    }
   }
 `;
 
@@ -84,7 +92,6 @@ const PlayButton = styled.button`
   border: none;
   width: 132px;
   height: 132px;
-
   background: #ff7243 0% 0% no-repeat padding-box;
   box-shadow: 10px 10px 50px #ff724373;
   border-radius: 20px;
@@ -99,7 +106,6 @@ const PlayButton = styled.button`
   &:hover {
     border: none;
     outline: none;
-    background: #ff7243;
   }
 
   &:focus {
@@ -114,7 +120,6 @@ const PlayButton = styled.button`
   &:disabled {
     border: none;
     outline: none;
-    background: #ff7243;
   }
 `;
 
@@ -132,7 +137,7 @@ export const HomeScreen: React.FC<Props> = ({ match }) => {
         </div>
       </div>
       <div className="main-wrapper">
-        <CustomRow margin="30px" justify="center" className="col-1">
+        <CustomRow margin="30px" justify="space-evenly" className="col-1">
           <PlayButton>
             <PlayIcon fill="#fff" height="40px" />
             <div className="btn-txt">PLAY</div>
@@ -168,7 +173,9 @@ export const HomeScreen: React.FC<Props> = ({ match }) => {
           </NormalButton>
         </CustomRow>
       </div>
-      <div className="bottom-wrapper">© 2020</div>
+      <div className="bottom-wrapper">
+        <div className="copyright">© 2020</div>
+      </div>
     </ScreenWrapper>
   );
 };

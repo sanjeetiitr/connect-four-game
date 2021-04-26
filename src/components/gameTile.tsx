@@ -1,4 +1,3 @@
-import { relative } from "node:path";
 import React from "react";
 import styled from "styled-components";
 
@@ -48,7 +47,10 @@ const getGameState = (board: Board) => {
       const index = r * 8 + c;
       const boardSlice = board.slice(index, index + 4);
       const winningResult = checkWinningSlice(boardSlice);
-      if (winningResult !== false) return winningResult;
+      if (winningResult !== false) {
+        let winingIndex = [index, index + 1, index + 2, index + 3];
+        return { winningResult, winingIndex };
+      }
     }
   }
 
@@ -64,7 +66,10 @@ const getGameState = (board: Board) => {
       ];
 
       const winningResult = checkWinningSlice(boardSlice);
-      if (winningResult !== false) return winningResult;
+      if (winningResult !== false) {
+        let winingIndex = [index, index + 8, index + 8 * 2, index + 8 * 3];
+        return { winningResult, winingIndex };
+      }
     }
   }
 
@@ -83,7 +88,16 @@ const getGameState = (board: Board) => {
         ];
 
         const winningResult = checkWinningSlice(boardSlice);
-        if (winningResult !== false) return winningResult;
+        if (winningResult !== false) {
+          let winingIndex = [
+            index,
+            index + 8 - 1,
+            index + 8 * 2 - 2,
+            index + 8 * 3 - 3,
+          ];
+
+          return { winningResult, winingIndex };
+        }
       }
 
       // Checks diagonal down-right
@@ -96,15 +110,23 @@ const getGameState = (board: Board) => {
         ];
 
         const winningResult = checkWinningSlice(boardSlice);
-        if (winningResult !== false) return winningResult;
+        if (winningResult !== false) {
+          let winingIndex = [
+            index,
+            index + 8 + 1,
+            index + 8 * 2 + 2,
+            index + 8 * 3 + 3,
+          ];
+          return { winningResult, winingIndex };
+        }
       }
     }
   }
 
   if (board.some((cell) => cell === Player.None)) {
-    return GameState.Ongoing;
+    return { winningResult: GameState.Ongoing, winingIndex: [] };
   } else {
-    return GameState.Draw;
+    return { winningResult: GameState.Draw, winingIndex: [] };
   }
 };
 
@@ -129,6 +151,7 @@ const GameTileWrapper = styled.div`
   width: 100%;
   background-color: #84a4fc;
   box-shadow: 0px 3px 6px #00000040;
+  border-radius: 30px;
 
   .round_cell {
     width: calc(500px / 8 - 8px);
@@ -158,13 +181,11 @@ export const GameTileBox: React.FC<{
   board,
   setBoard,
 }) => {
-  //   const [board, setBoard] = React.useState<Board>(intitializeBoard());
+  const [winingIndex, setWinningIndex] = React.useState<number[]>([]);
   //   const [playerTurn, setPlayerTurn] = React.useState<Player>(Player.One);
   //   const [gameState, setGameState] = React.useState<GameState | Player>(
   //     GameState.Ongoing
   //   );
-
-  sessionStorage.setItem("playerTurn", playerTurn);
 
   const renderCells = () => {
     return board.map((player, index) => renderCell(player, index));
@@ -172,6 +193,7 @@ export const GameTileBox: React.FC<{
 
   const renderCell = (player: Player, index: number) => {
     let currentPlayer = getPlayerName(player);
+    let winner = winingIndex.includes(index);
     return (
       <div
         className="round_cell"
@@ -184,6 +206,7 @@ export const GameTileBox: React.FC<{
                 backgroundImage: `url(/${currentPlayer}.png)`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
+                border: winner ? `6px solid #FFFF00` : "2px solid #ffffff",
               }
             : {}
         }
@@ -218,7 +241,9 @@ export const GameTileBox: React.FC<{
     newBoard[index] = playerTurn;
     const gameState = getGameState(newBoard);
     setBoard(newBoard);
-    setGameState(gameState);
+    setGameState(gameState.winningResult);
+    setWinningIndex(gameState.winingIndex);
+    console.log(gameState, "winningResult");
     setPlayerTurn(togglePlayerTurn(playerTurn));
   };
 

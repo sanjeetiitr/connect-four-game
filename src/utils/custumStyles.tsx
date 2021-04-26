@@ -79,6 +79,7 @@ export const NormalButton = styled.button<{
   &:disabled {
     border: none;
     outline: none;
+    cursor: not-allowed;
     // background: #ff7243;
   }
 `;
