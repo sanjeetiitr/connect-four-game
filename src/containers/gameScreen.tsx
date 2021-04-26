@@ -136,11 +136,6 @@ export const GameScreen: React.FC<{}> = () => {
     ? sessionStorage.getItem("game_setting")
     : "";
 
-  const [board, setBoard] = React.useState<Board>(intitializeBoard());
-  const [playerTurn, setPlayerTurn] = React.useState<Player>(Player.One);
-  const [gameState, setGameState] = React.useState<GameState | Player | any>(
-    GameState.Ongoing
-  );
   const [tournamentStatus, updateTournamentStatus] = React.useState<any>({
     winner: undefined,
     PLAYER_ONE: 0,
@@ -149,8 +144,33 @@ export const GameScreen: React.FC<{}> = () => {
     gameCount: game_setting && JSON.parse(game_setting).gameCount,
     startWith: game_setting && JSON.parse(game_setting).startWith,
   });
+  const [board, setBoard] = React.useState<Board>(intitializeBoard());
+  const [playerTurn, setPlayerTurn] = React.useState<Player>(Player.One);
+  const [gameState, setGameState] = React.useState<GameState | Player | any>(
+    GameState.Ongoing
+  );
 
   let history = useHistory();
+
+  const decidePlayerTurn = (): Player => {
+    if (tournamentStatus.startWith === "Always player 2") {
+      return Player.Two;
+    } else if (tournamentStatus.startWith === "Always player 1") {
+      return Player.One;
+    } else if (tournamentStatus.startWith === "Winner first") {
+      return gameState === Player.One ? Player.One : Player.Two;
+    } else if (tournamentStatus.startWith === "Looser first") {
+      return gameState === Player.One ? Player.Two : Player.One;
+    } else if (tournamentStatus.startWith === "Alternative turn") {
+      return playerTurn;
+    } else {
+      return Player.One;
+    }
+  };
+
+  // React.useEffect(() => {
+  //   setPlayerTurn(decidePlayerTurn());
+  // }, []);
 
   const handleEndGame = () => {
     sessionStorage.clear();
@@ -158,8 +178,9 @@ export const GameScreen: React.FC<{}> = () => {
   };
 
   const handleNextGame = () => {
+    let turn = decidePlayerTurn();
     setBoard(intitializeBoard());
-    setPlayerTurn(Player.One);
+    setPlayerTurn(turn);
     setGameState(GameState.Ongoing);
   };
 
@@ -198,14 +219,10 @@ export const GameScreen: React.FC<{}> = () => {
     } else return false;
   };
 
-  console.log(
-    tournamentStatus,
-    game_setting && JSON.parse(game_setting),
-    "playerTurn"
-  );
   let wonGame = gameState === "PLAYER_TWO" || gameState === "PLAYER_ONE";
   let wonTournament = tournamentStatus.gameCount === 0 || checkWinner();
   let checkWinnerPlayer = checkWinner();
+
   return (
     <GameScreenWrapper>
       <CustomRow padding="10px" justify="center" className="top-navigation">
