@@ -38,6 +38,24 @@ const ModalWrapper = styled.div`
       background-color: #00000029;
     }
   }
+
+  @media (max-width: 450px) {
+    padding-top: 30%;
+    .modal-content {
+      margin: auto;
+      padding: 20px 20px 00px 20px;
+      width: 70%;
+      top: 30%;
+      background: #ffffff 0% 0% no-repeat padding-box;
+      box-shadow: 0px 3px 6px #00000029;
+      border-radius: 10px;
+
+      .title {
+        font-size: 20px;
+        padding: 20px 0;
+      }
+    }
+  }
 `;
 
 export const CustomModal: React.FC<{

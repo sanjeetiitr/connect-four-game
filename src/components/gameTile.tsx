@@ -163,6 +163,23 @@ const GameTileWrapper = styled.div`
     margin: 4px;
     border: 2px solid #ffffff;
     box-shadow: 0px 3px 6px #00000040 inset;
+    cursor: pointer;
+  }
+
+  @media (max-width: 450px) {
+    border-radius: 20px;
+
+    .round_cell {
+      width: calc(310px / 8 - 8px);
+      height: calc(310px / 8 - 8px);
+      background: white;
+      display: inline-block;
+      box-sizing: border-box;
+      border-radius: 50%;
+      margin: 4px;
+      border: 2px solid #ffffff;
+      box-shadow: 0px 3px 6px #00000040 inset;
+    }
   }
 `;
 

@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import styled from "styled-components";
 import { CustomModal } from "../components/modal";
 import PlayIcon from "../svgComponent/playIcon";
-import { CustomRow, NormalButton } from "../utils/custumStyles";
+import { CustomColumn, CustomRow, NormalButton } from "../utils/custumStyles";
 
 const ScreenWrapper = styled.div`
   flex-direction: column;
@@ -28,6 +28,24 @@ const ScreenWrapper = styled.div`
       letter-spacing: 0px;
       color: #949494;
     }
+
+    @media (max-width: 450px) {
+      width: 100%;
+      padding: 30px 0;
+      .title-bold {
+        font-size: 24px;
+        color: #3d4276;
+        letter-spacing: 0px;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding-bottom: 5px;
+      }
+      .title-second {
+        font-size: 16px;
+        letter-spacing: 0px;
+        color: #949494;
+      }
+    }
   }
 
   .main-wrapper {
@@ -51,6 +69,31 @@ const ScreenWrapper = styled.div`
 
     .main-img {
       margin-top: -200px;
+    }
+
+    @media (max-width: 450px) {
+      background-color: white;
+      height: 560px;
+      width: 100%;
+      box-shadow: 0px 3px 10px #00000029;
+      border: 1px solid #f7f7f7;
+      border-radius: 30px;
+      opacity: 1;
+      z-index: 1;
+      flex-direction: column;
+      display: flex;
+
+      .col-1 {
+        border-bottom: 1px solid #f7f7f7;
+      }
+      .col-2 {
+        flex-wrap: wrap;
+      }
+
+      .main-img {
+        margin-top: -100px;
+        transform: scaleX(-1);
+      }
     }
   }
 
@@ -79,10 +122,27 @@ const ScreenWrapper = styled.div`
       padding: 40px 30px 20px 30px;
     }
   }
+
+  @media (max-width: 450px) {
+    .bottom-wrapper {
+      height: 150px;
+      background-color: #eeeeee;
+      width: 100%;
+      border-radius: 30px;
+      margin-top: -100px;
+      font-size: 18px;
+
+      .copyright {
+        font-size: 14px;
+        text-align: left;
+        padding: 40px 30px 20px 30px;
+      }
+    }
+  }
 `;
 
 const PlayButton = styled.button`
-  font-size: "20px";
+  font-size: 20px;
   font-weight: 600;
   cursor: pointer;
   padding: 30px;
@@ -119,9 +179,22 @@ const PlayButton = styled.button`
     border: none;
     outline: none;
   }
+
+  @media (max-width: 450px) {
+    font-size: 14px;
+    padding: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+
+    .btn-txt {
+      font-size: 18px;
+      margin-top: 12px;
+    }
+  }
 `;
 
-export const HomeScreen: React.FC<{}> = () => {
+export const HomeScreen: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   let history = useHistory();
   const handleModalClick = (id: string) => {
     let element = document.getElementById(id);
@@ -142,6 +215,8 @@ export const HomeScreen: React.FC<{}> = () => {
     }
   };
 
+  console.log(isMobile, "isMobile");
+
   return (
     <ScreenWrapper>
       <div className="top-text">
@@ -152,50 +227,80 @@ export const HomeScreen: React.FC<{}> = () => {
         </div>
       </div>
       <div className="main-wrapper">
-        <CustomRow margin="30px" justify="space-evenly" className="col-1">
-          <PlayButton>
-            <PlayIcon fill="#fff" height="40px" />
-            <div className="btn-txt">PLAY</div>
-          </PlayButton>
-          <img
-            className="main-img"
-            width="400px"
-            height="400px"
-            alt="img"
-            src="/4inarow.png"
-          />
-        </CustomRow>
+        {isMobile && (
+          <CustomColumn
+            margin="30px"
+            justify="space-evenly"
+            align="center"
+            className="col-1"
+          >
+            <img
+              className="main-img"
+              width="250px"
+              height="250px"
+              alt="img"
+              src="/4inarow.png"
+            />
+            <PlayButton>
+              <PlayIcon fill="#fff" height="24px" />
+              <div className="btn-txt">PLAY</div>
+            </PlayButton>
+          </CustomColumn>
+        )}
+        {!isMobile && (
+          <CustomRow margin="30px" justify="space-evenly" className="col-1">
+            <PlayButton>
+              <PlayIcon fill="#fff" height="40px" />
+              <div className="btn-txt">PLAY</div>
+            </PlayButton>
+            <img
+              className="main-img"
+              width="400px"
+              height="400px"
+              alt="img"
+              src="/4inarow.png"
+            />
+          </CustomRow>
+        )}
         <CustomRow margin="30px" justify="space-between" className="col-2">
           <NormalButton
             background="#4BABFF"
-            width="48%"
+            width={isMobile ? "100%" : "48%"}
             onClick={() => handleModalClick("custom-modal")}
           >
-            <img height="40" alt="icon" src="/one@2x.png" />
+            <img height={isMobile ? "20" : "40"} alt="icon" src="/one@2x.png" />
             Custom Game
           </NormalButton>
           <NormalButton
             background="#4B7BFF"
-            width="48%"
+            width={isMobile ? "100%" : "48%"}
             onClick={() => history.push("/prestart")}
           >
-            <img height="40" alt="icon" src="/two@2x.png" />
+            <img height={isMobile ? "20" : "40"} alt="icon" src="/two@2x.png" />
             Two Players
           </NormalButton>
           <NormalButton
             background="#4B4BFF"
-            width="48%"
+            width={isMobile ? "100%" : "48%"}
             onClick={() => handleModalClick("custom-modal")}
           >
-            <img height="40" alt="icon" src="/online@2x.png" />
+            <img
+              height={isMobile ? "20" : "40"}
+              alt="icon"
+              src="/online@2x.png"
+            />
             Game Online
           </NormalButton>
           <NormalButton
             background="#6E4BFF"
-            width="48%"
+            width={isMobile ? "100%" : "48%"}
             onClick={() => handleModalClick("custom-modal")}
           >
-            <img height="40" alt="icon" src="/training@2x.png" />
+            <img
+              height={isMobile ? "20" : "40"}
+              alt="icon"
+              src="/training@2x.png"
+            />
             Training Game
           </NormalButton>
         </CustomRow>

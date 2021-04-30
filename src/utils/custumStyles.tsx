@@ -49,7 +49,6 @@ export const NormalButton = styled.button<{
   cursor: pointer;
   padding: 20px;
   background: ${(props) => props.background || "#4BABFF"};
-  border-radius: 20px;
   border: none;
   width: ${(props) => props.width || "100%"};
   font-weight: medium;
@@ -81,5 +80,12 @@ export const NormalButton = styled.button<{
     outline: none;
     cursor: not-allowed;
     // background: #ff7243;
+  }
+
+  @media (max-width: 450px) {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: ${(props) => props.marginBottom || "10px"};
+    border-radius: 10px;
   }
 `;

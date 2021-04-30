@@ -4,10 +4,9 @@ import styled from "styled-components";
 import { CustomAvatar } from "../components/avatar";
 import { CustomModal } from "../components/modal";
 import BackIcon from "../svgComponent/backIcon";
-import PlayIcon from "../svgComponent/playIcon";
 import { CustomColumn, CustomRow, NormalButton } from "../utils/custumStyles";
 interface Props {
-  match: any;
+  isMobile: boolean;
 }
 
 const PreStartScreenWrapper = styled.div`
@@ -33,7 +32,7 @@ const PreStartScreenWrapper = styled.div`
     }
     .back-icon {
       position: absolute;
-      left: 0;
+      left: 20px;
       cursor: pointer;
     }
   }
@@ -123,9 +122,58 @@ const PreStartScreenWrapper = styled.div`
       cursor: pointer;
     }
   }
+
+  @media (max-width: 450px) {
+    .top-navigation {
+      width: 100%;
+      .header-title {
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+
+    .main-wrapper {
+      padding: 10px 0;
+      min-height: 560px;
+      width: 100%;
+      border-radius: 30px;
+      align-items: center;
+      justify-content: center;
+
+      .row-ui-style {
+        border: 1px solid #70707026;
+        border-radius: 10px;
+        width: 80%;
+
+        .sub-t1 {
+          font-size: 12px;
+        }
+        .sub-t2 {
+          font-size: 20px;
+        }
+        .input-cust {
+          &:focus-visible {
+            outline: none;
+          }
+        }
+
+        .radio-item {
+          padding: 10px;
+          border-radius: 10px;
+          label {
+            font-size: 18px;
+          }
+          input {
+            height: 14px;
+            width: 14px;
+          }
+        }
+      }
+    }
+  }
 `;
 
-export const PreStartScreen: React.FC<Props> = () => {
+export const PreStartScreen: React.FC<Props> = ({ isMobile }) => {
   let history = useHistory();
   const [player1, setPlayer1] = React.useState("Player 1");
   const [player2, setPlayer2] = React.useState("Player 2");
@@ -359,7 +407,11 @@ export const PreStartScreen: React.FC<Props> = () => {
           </CustomColumn>
         </CustomRow>
         <div className="divider"></div>
-        <NormalButton background="#4BABFF" onClick={handleGameStart}>
+        <NormalButton
+          background="#4BABFF"
+          width={isMobile ? "90%" : "100%"}
+          onClick={handleGameStart}
+        >
           Start Game
         </NormalButton>
       </div>

@@ -35,7 +35,7 @@ const GameScreenWrapper = styled.div`
     }
     .back-icon {
       position: absolute;
-      left: 0;
+      left: 20px;
       cursor: pointer;
     }
   }
@@ -54,7 +54,6 @@ const GameScreenWrapper = styled.div`
     display: flex;
 
     .col-1 {
-      // border-bottom: 1px solid #f7f7f7;
       width: 100%;
     }
     .col-2 {
@@ -129,9 +128,79 @@ const GameScreenWrapper = styled.div`
   .lightYellow {
     background-color: #f6efd5;
   }
+
+  @media (max-width: 450px) {
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    height: fit-content;
+
+    .top-navigation {
+      width: 100%;
+      z-index: 2;
+      .header-title {
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+
+    .main-wrapper {
+      margin-top: 60px;
+      height: calc(100% - 60px);
+      width: 100%;
+      border-radius: 30px;
+
+      flex-direction: row;
+      margin-bottom: 20px;
+      .col-1 {
+        height: 330px;
+        width: 350px;
+      }
+      .col-2 {
+        flex-wrap: wrap;
+        width: 100%;
+      }
+    }
+
+    .side-wrapper {
+      height: 100%;
+      width: 100%;
+      border-radius: 30px;
+      margin-left: 0px;
+      padding-left: 0px;
+      margin-bottom: 20px;
+
+      .det-title {
+        font-size: 20px;
+      }
+      .win-text {
+        font-size: 18px;
+        padding-top: 8px;
+      }
+      .det-sub-title {
+        font-size: 16px;
+        padding-top: 8px;
+        padding-bottom: 10px;
+      }
+      .player-det {
+        border: 1px solid #70707026;
+        border-radius: 15px;
+
+        .sub-t1 {
+          opacity: 0.56;
+          font-size: 14px;
+        }
+        .sub-t2 {
+          opacity: 0.56;
+          font-size: 18px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
 `;
 
-export const GameScreen: React.FC<{}> = () => {
+export const GameScreen: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   let game_setting = sessionStorage.getItem("game_setting")
     ? sessionStorage.getItem("game_setting")
     : "";
@@ -167,10 +236,6 @@ export const GameScreen: React.FC<{}> = () => {
       return Player.One;
     }
   };
-
-  // React.useEffect(() => {
-  //   setPlayerTurn(decidePlayerTurn());
-  // }, []);
 
   const handleEndGame = () => {
     sessionStorage.clear();
@@ -234,7 +299,11 @@ export const GameScreen: React.FC<{}> = () => {
         <div className="header-title">Two Player Game</div>
       </CustomRow>
       <div className="main-wrapper">
-        <CustomRow margin="30px" justify="center" className="col-1">
+        <CustomRow
+          margin={isMobile ? "10px" : "30px"}
+          justify="center"
+          className="col-1"
+        >
           <GameTileBox
             setPlayerTurn={setPlayerTurn}
             playerTurn={playerTurn}
@@ -246,7 +315,11 @@ export const GameScreen: React.FC<{}> = () => {
         </CustomRow>
       </div>
       <div className="side-wrapper">
-        <CustomColumn margin="30px" justify="space-between" className="col-2">
+        <CustomColumn
+          margin={isMobile ? "10px" : "30px"}
+          justify="space-between"
+          className="col-2"
+        >
           <div className="det-title">
             {game_setting && JSON.parse(game_setting).gameCount} Games
             Tournament
@@ -316,7 +389,10 @@ export const GameScreen: React.FC<{}> = () => {
             </CustomColumn>
           </CustomRow>
           <div className="divider" />
-          <CustomColumn width="100%" padding="20px 0">
+          <CustomColumn
+            width="100%"
+            padding={isMobile ? "20px 0 0 0" : "20px 0"}
+          >
             {!wonGame && (
               <NormalButton disabled marginBottom="20px" background="#4B7BFF">
                 Undo Step
@@ -344,6 +420,7 @@ export const GameScreen: React.FC<{}> = () => {
               onClick={handleEndGame}
               background="white"
               color="#CC0000"
+              // marginBottom={isMobile ? "0" : ""}
             >
               End Tournament
             </NormalButton>
